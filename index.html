@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little by Little - English Literature Quote Recommender</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-overlay" id="splashOverlay" aria-hidden="true">
+        <div class="splash-center">
+            <div class="splash-title">Little by Little</div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Bookshelf (1/4 width) -->
+        <aside class="bookshelf-panel">
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profileAvatar">👤</div>
+                    <div class="profile-info">
+                        <input type="text" class="nickname-input" id="nicknameInput" placeholder="Enter nickname" maxlength="20">
+                        <div class="points-display">
+                            <span class="points-label">Points:</span>
+                            <span class="points-value" id="pointsValue">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Missing Poster -->
+                <div class="missing-poster" id="missingPoster">
+                    <div class="poster-header">Missing</div>
+                    <div class="poster-icon">❓</div>
+                    <div class="poster-text">Please find my home!</div>
+                </div>
+            </div>
+
+            <!-- Books Section -->
+            <div class="books-grid">
+                <div class="bookshelf-row top-row">
+                    <button class="book-item" data-category="encouragement">
+                        <span class="book-spine">💪</span>
+                        <span class="book-title">Encourage</span>
+                    </button>
+                    <button class="book-item" data-category="celebration">
+                        <span class="book-spine">🎉</span>
+                        <span class="book-title">Celebrate</span>
+                    </button>
+                    <button class="book-item" data-category="determination">
+                        <span class="book-spine">🎯</span>
+                        <span class="book-title">Determined</span>
+                    </button>
+                </div>
+                <div class="bookshelf-row bottom-row">
+                    <button class="book-item" data-category="effort">
+                        <span class="book-spine">⚡</span>
+                        <span class="book-title">Effort</span>
+                    </button>
+                    <button class="book-item" data-category="love">
+                        <span class="book-spine">❤️</span>
+                        <span class="book-title">Love</span>
+                    </button>
+                    <button class="book-item" data-category="comfort">
+                        <span class="book-spine">🤗</span>
+                        <span class="book-title">Comfort</span>
+                    </button>
+                    <button class="book-item" data-category="favorites">
+                        <span class="book-spine">⭐</span>
+                        <span class="book-title">Favorites</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Drawer Section -->
+            <div class="drawer-section">
+                <button class="drawer-btn" id="drawerBtn">
+                    <div class="drawer-handle"></div>
+                    <span class="drawer-label">Diary & Book Report</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Open Book View (3/4 width) -->
+        <main class="book-view-panel">
+            <!-- Quote Book View -->
+            <div class="open-book" id="quoteBookView">
+                <div class="book-page left-page">
+                    <div class="page-header">
+                        <span class="page-number">1</span>
+                    </div>
+                    <div class="quote-content" id="quoteContent">
+                        <div class="welcome-message">
+                            <h2>Welcome to Little by Little</h2>
+                            <p>Select a book from the bookshelf to discover beautiful quotes.</p>
+                        </div>
+                    </div>
+                    <button class="favorite-btn-page" id="quoteFavoriteBtn" style="display: none;">
+                        <span class="btn-icon">❤️</span>
+                        <span class="btn-text">Favorite Quote</span>
+                    </button>
+                </div>
+                
+                <div class="book-spine-binding"></div>
+                
+                <div class="book-page right-page">
+                    <div class="page-header">
+                        <span class="page-number">2</span>
+                    </div>
+                    <div class="book-info-content" id="bookInfoContent">
+                        <div class="welcome-message">
+                            <h3>Book Information</h3>
+                            <p>Information about the quote will appear here.</p>
+                        </div>
+                    </div>
+                    <button class="favorite-btn-page" id="bookFavoriteBtn" style="display: none;">
+                        <span class="btn-icon">⭐</span>
+                        <span class="btn-text">Favorite Book</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Drawer Content View (Diary & Book Report) -->
+            <div class="open-book drawer-book" id="drawerBookView" style="display: none;">
+                <div class="book-page left-page">
+                    <div class="page-header">
+                        <span class="page-number">1</span>
+                    </div>
+                    <div class="calendar-container" id="calendarContainer">
+                        <!-- Calendar will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="book-spine-binding"></div>
+                
+                <div class="book-page right-page">
+                    <div class="page-header">
+                        <span class="page-number">2</span>
+                    </div>
+                    
+                    <!-- Index Tabs -->
+                    <div class="index-tabs">
+                        <button class="index-tab active" data-tab="diary">
+                            <span class="tab-icon">📝</span>
+                            <span class="tab-label">Diary</span>
+                        </button>
+                        <button class="index-tab" data-tab="bookreport">
+                            <span class="tab-icon">📖</span>
+                            <span class="tab-label">Book Report</span>
+                        </button>
+            </div>
+            
+                    <!-- Diary Tab Content -->
+                    <div class="index-content active" id="diaryContent">
+                        <div class="diary-entry-form">
+                            <div class="entry-date-display" id="diaryDateDisplay"></div>
+                            <div class="todays-quote-section">
+                                <label class="section-label">Today's Quote</label>
+                                <textarea class="todays-quote-input" id="todaysQuoteInput" placeholder="Write your own quote here..."></textarea>
+                            </div>
+                            <div class="diary-content-section">
+                                <label class="section-label">Diary Content</label>
+                                <textarea class="diary-content-input" id="diaryContentInput" placeholder="Write your thoughts here..."></textarea>
+                                <div class="diary-tools">
+                                    <div class="grammar-tools">
+                                        <button class="grammar-btn" id="checkGrammarBtn">
+                                            <span class="btn-icon">✔️</span>
+                                            Check Grammar
+                                        </button>
+                                        <button class="grammar-btn secondary" id="applyFixesBtn" disabled>
+                                            <span class="btn-icon">✨</span>
+                                            Apply Fixes
+                                        </button>
+                                    </div>
+                                    <label class="upload-btn">
+                                        <input type="file" id="imageInput" accept="image/*" multiple hidden>
+                                        <span class="btn-icon">📷</span>
+                                        Add Photos
+                                    </label>
+                                </div>
+                                <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                            </div>
+                            <div class="entry-actions">
+                                <button class="save-entry-btn" id="saveDiaryBtn">Save Diary</button>
+                            </div>
+                        </div>
+                        <div class="saved-diaries-section" id="savedDiariesSection" style="display: none;">
+                            <h4 class="saved-section-title">Saved Entries</h4>
+                            <div class="diary-cards-container" id="diaryCardsContainer"></div>
+            </div>
+        </div>
+
+                    <!-- Book Report Tab Content -->
+                    <div class="index-content" id="bookreportContent">
+                        <div class="book-report-form">
+                            <div class="entry-date-display" id="reportDateDisplay"></div>
+                            <div class="book-title-section">
+                                <input type="text" class="book-title-input" id="bookTitleInput" placeholder="Book Title">
+                                <input type="text" class="book-author-input" id="bookAuthorInput" placeholder="Author Name">
+                            </div>
+                            <div class="rating-section">
+                                <label class="rating-label">Rating</label>
+                                <div class="star-rating" id="starRating">
+                                    <span class="star" data-rating="1">☆</span>
+                                    <span class="star" data-rating="2">☆</span>
+                                    <span class="star" data-rating="3">☆</span>
+                                    <span class="star" data-rating="4">☆</span>
+                                    <span class="star" data-rating="5">☆</span>
+                                </div>
+                            </div>
+                            <div class="report-content-section">
+                                <label class="section-label">Book Report Content</label>
+                                <textarea class="report-content-input" id="reportContentInput" placeholder="Write your book report here..."></textarea>
+            </div>
+                            <div class="entry-actions">
+                                <button class="save-entry-btn" id="saveReportBtn">Save Report</button>
+                            </div>
+                        </div>
+                        <div class="saved-reports-section" id="savedReportsSection" style="display: none;">
+                            <h4 class="saved-section-title">Saved Reports</h4>
+                            <div class="report-cards-container" id="reportCardsContainer"></div>
+                        </div>
+
+                        <!-- Quiz Section -->
+                        <div class="quiz-section" id="quizSection" style="display: none;">
+                            <h4 class="quiz-title">Quiz</h4>
+                            <div class="quiz-questions" id="quizQuestions">
+                                <!-- Quiz questions will be populated by JavaScript -->
+                            </div>
+                            <button class="submit-quiz-btn" id="submitQuizBtn">Submit Quiz</button>
+                            <div class="quiz-result" id="quizResult" style="display: none;"></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+            <!-- Favorites Book View -->
+            <div class="open-book favorites-book" id="favoritesBookView" style="display: none;">
+                <div class="book-page left-page">
+                    <div class="page-header">
+                        <span class="page-number">1</span>
+                    </div>
+                    <div class="favorites-content">
+                        <h3>Favorite Quotes</h3>
+                        <div class="favorites-list" id="favoriteQuotesList">
+                            <!-- Favorite quotes will be populated by JavaScript -->
+                        </div>
+        </div>
+    </div>
+
+                <div class="book-spine-binding"></div>
+                
+                <div class="book-page right-page">
+                    <div class="page-header">
+                        <span class="page-number">2</span>
+                    </div>
+                    <div class="favorites-content">
+                        <h3>Favorite Books</h3>
+                        <div class="favorites-list" id="favoriteBooksList">
+                            <!-- Favorite books will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Missing Poster Modal -->
+    <div class="modal-overlay" id="missingModal">
+        <div class="modal-content missing-modal-content">
+            <button class="modal-close" id="missingModalClose">&times;</button>
+            <div class="missing-modal-header">
+                <h2>Missing</h2>
+                <div class="missing-character">❓</div>
+            </div>
+            <div class="hints-section">
+                <h3>Hints Collected</h3>
+                <div class="hints-display" id="hintsDisplay">
+                    <div class="hint-item locked">Hint 1 🔒</div>
+                    <div class="hint-item locked">Hint 2 🔒</div>
+                    <div class="hint-item locked">Hint 3 🔒</div>
+                    <div class="hint-item locked">Hint 4 🔒</div>
+                </div>
+                <div class="points-info">
+                    <p>Current Points: <strong id="modalPointsValue">0</strong></p>
+                    <p>Points needed for next hint: <strong id="pointsNeeded">10</strong></p>
+            </div>
+                </div>
+            <div class="answer-section" id="answerSection" style="display: none;">
+                <h3>Find the Home</h3>
+                <p>Enter the title of the book where this character belongs:</p>
+                <input type="text" class="answer-input" id="answerInput" placeholder="Enter book title...">
+                <button class="submit-answer-btn" id="submitAnswerBtn">Submit Answer</button>
+                <div class="answer-result" id="answerResult" style="display: none;"></div>
+                </div>
+                </div>
+                </div>
+
+    <!-- Learn More Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be populated by JavaScript -->
+                </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
