@@ -1,4 +1,4 @@
-# English-quote-program
+# English-quote-project
 
 # 영문학 한 문장 추천 웹앱
 
